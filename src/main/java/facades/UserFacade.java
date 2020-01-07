@@ -1,0 +1,53 @@
+package facades;
+
+import entities.User;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import errorhandling.AuthenticationException;
+
+/**
+ * @author lam@cphbusiness.dk
+ */
+public class UserFacade {
+  
+    private static EntityManagerFactory emf;
+    private static UserFacade instance;
+    
+    private UserFacade(){}
+    
+    /**
+     * 
+     * @param _emf
+     * @return the instance of this facade.
+     */
+    public static UserFacade getUserFacade (EntityManagerFactory _emf) {
+        if (instance == null) {
+            emf = _emf;
+            instance = new UserFacade();
+        }
+        return instance;
+    }
+    
+    public static String test () {
+        System.out.println("Testing facade");
+        return "Testing facade";
+    }
+    
+    
+    
+    public User getVerifiedUser(String username, String password) throws NullPointerException, AuthenticationException {
+        EntityManager em = emf.createEntityManager();
+        User user=null;
+        try {
+            user = em.find(User.class, username);
+            if (user == null || !user.verifyPassword(password)) {
+                throw new AuthenticationException("Invalid user name or password");
+            }
+        }catch(NullPointerException ex){
+        } finally {
+            em.close();
+        }
+        return user;
+    }
+
+}
