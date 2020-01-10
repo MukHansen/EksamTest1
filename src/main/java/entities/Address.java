@@ -32,11 +32,16 @@ public class Address implements Serializable {
     private String city;
     private String zip;
     
-    @OneToMany(
-            mappedBy = "address",
-            cascade = CascadeType.PERSIST
-    )
+    @OneToMany(mappedBy = "address")
     private List<Person> persons = new ArrayList();
+
+    public void setPersons(Person person){
+        this.persons.add(person);
+    }
+
+    public List<Person> getPersons() {
+        return persons;
+    }
     
     public Address() {
     }

@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.FetchType;
@@ -18,12 +19,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Persistence;
 
 
-//@Entity
-//@NamedQuery(name = "Person.deleteAllRows", query = "DELETE from Person")
+@Entity
+@NamedQuery(name = "Person.deleteAllRows", query = "DELETE from Person")
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,25 +33,33 @@ public class Person implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "email")
-    private String email;
     private String firstName;
     private String lastName;
     private String phone;
+    private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "addressID")
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Address address;
 
-    @ManyToMany(cascade = {
-        CascadeType.PERSIST,
-        CascadeType.MERGE
-    })
-    @JoinTable(name = "person_hobbies",
-            joinColumns = @JoinColumn(name = "personID"),
-            inverseJoinColumns = @JoinColumn(name = "hobbyID")
-    )
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Hobby> hobbies = new ArrayList<>();
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public List<Hobby> getHobbies() {
+        return hobbies;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public void setHobby(Hobby hobby) {
+        this.hobbies.add(hobby);
+        hobby.setPerson(this);
+    }
     
     public Person() {
     }
@@ -106,6 +116,7 @@ public class Person implements Serializable {
         this.email = email;
     }
 
+        
     @Override
     public int hashCode() {
         int hash = 7;
