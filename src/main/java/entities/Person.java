@@ -43,7 +43,17 @@ public class Person implements Serializable {
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Hobby> hobbies = new ArrayList<>();
-
+    
+    public Person() {
+    }
+    
+     public Person(String firstName, String lastName, String phone, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.email = email;
+    }
+   
     public Address getAddress() {
         return address;
     }
@@ -60,16 +70,8 @@ public class Person implements Serializable {
         this.hobbies.add(hobby);
         hobby.setPerson(this);
     }
-    
-    public Person() {
-    }
 
-    public Person(String firstName, String lastName, String phone, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.email = email;
-    }
+
 
     @Override
     public String toString() {

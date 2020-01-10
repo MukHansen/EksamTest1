@@ -174,15 +174,15 @@ public class PersonFacade {
 
         address1 = new Address("BalladeStræde", "Balladerup", "2750");
         address2 = new Address("Herlevhovedgade", "Herlev", "1234");
-
-        try {
-            p1 = new Person("Gurli", "Mogensen", "email@email.com", "44556677");
+p1 = new Person("Gurli", "Mogensen", "email@email.com", "44556677");
             p2 = new Person("Gunnar", "Hjorth", "mail@mail.com", "11223344");
             p1.setHobby(hobby1);
             p1.setHobby(hobby2);
             p1.setAddress(address1);
             p2.setHobby(hobby3);
             p2.setAddress(address2);
+        try {
+            
             em.getTransaction().begin();
             em.persist(p1);
             em.persist(p2);
