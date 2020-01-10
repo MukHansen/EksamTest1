@@ -175,7 +175,6 @@ public class PersonFacade {
         address1 = new Address("BalladeStræde", "Balladerup", "2750");
         address2 = new Address("Herlevhovedgade", "Herlev", "1234");
 
-        em = emf.createEntityManager();
         try {
             p1 = new Person("Gurli", "Mogensen", "email@email.com", "44556677");
             p2 = new Person("Gunnar", "Hjorth", "mail@mail.com", "11223344");
